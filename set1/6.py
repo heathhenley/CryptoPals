@@ -93,7 +93,6 @@ def crack_rkey_xor(
 def main():
   with open("6.txt", "r") as f:
     bstr = base64.b64decode(f.read())
-
   res = crack_rkey_xor(bstr, min_key_size=2, max_key_size=40)
 
   for score, key, _ in res:
