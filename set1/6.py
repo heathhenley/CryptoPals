@@ -81,13 +81,20 @@ def crack_rkey_xor(
     min_key_size, max_key_size, bstr, top_n)
   res = []
   for key_size, _ in candidates:
-    key = []
     # take the first byte of each block, then the second byte, etc.
-    for i in range(key_size):
-      block = bstr[i::key_size]
-      key.append(best_score(block)[0][0])
+    key = []
+    for i in range(key_size): # get the ith byte of key
+      best_key = None 
+      best_s = 0
+      for bidx in range(0, len(bstr) // key_size):
+        block = bstr[bidx * key_size + i::key_size]
+        k, s, _ = best_score(block)[0]
+        if s > best_s:
+          best_key = k
+          best_s = s
+      key.append(best_key)
+    txt = repeating_xor(bstr, key)
     rk = bytes(key).decode("utf-8", errors="ignore")
-    txt = repeating_xor(bstr, bytes(key))
     res.append((score(txt), rk, repeating_xor(bstr, bytes(key))))
   return sorted(res, reverse=True, key=lambda x: x[0])
 
@@ -96,7 +103,7 @@ def main():
   with open("6.txt", "r") as f:
     bstr = base64.b64decode(f.read())
 
-  res = crack_rkey_xor(bstr, min_key_size=2, max_key_size=128)
+  res = crack_rkey_xor(bstr, min_key_size=2, max_key_size=40)
 
   for score, key, _ in res:
     print(score, key)
