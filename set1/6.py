@@ -58,6 +58,8 @@ def best_key_sizes(
   key_dist = []
   for key_size in range(min_key_size, max_key_size + 1):
     scores = []
+    if len(bstr) < 2 * key_size:
+      break
     for i in range(0, len(bstr) // key_size - 1):
       # compare the ith and (i+1)th blocks
       b1 = bstr[i*key_size:(i+1)*key_size]
@@ -84,7 +86,7 @@ def crack_rkey_xor(
     for i in range(key_size):
       block = bstr[i::key_size]
       key.append(best_score(block)[0][0])
-    rk = bytes(key).decode()
+    rk = bytes(key).decode("utf-8", errors="ignore")
     txt = repeating_xor(bstr, bytes(key))
     res.append((score(txt), rk, repeating_xor(bstr, bytes(key))))
   return sorted(res, reverse=True, key=lambda x: x[0])
@@ -93,14 +95,15 @@ def crack_rkey_xor(
 def main():
   with open("6.txt", "r") as f:
     bstr = base64.b64decode(f.read())
-  res = crack_rkey_xor(bstr, min_key_size=2, max_key_size=40)
+
+  res = crack_rkey_xor(bstr, min_key_size=2, max_key_size=128)
 
   for score, key, _ in res:
     print(score, key)
 
   print() 
   print(f"Best result {res[0][0]:.1f} with key {res[0][1]}:")
-  print(res[0][2].decode())
+  print(res[0][2].decode("utf-8", errors="ignore"))
 
 def test():
   b1 = b'this is a test'
