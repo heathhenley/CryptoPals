@@ -41,3 +41,30 @@ Then we find the unknown string by:
     unknown string we found in step 1, and repeat step 1 to find the
     second byte of the unknown string.
  3. Repeat until we've found all the bytes of the unknown string.
+
+# Problem 13
+
+Haven't got it working yet, but I started by sending a bunch of X's followed by
+a bunch of A's in multiples of the block size, and then I adjusted the X's
+until I had that many repeated block of A's in the ciphertext. Eg 10 X's, and
+that fills the block so that with 32 A's, we then get 2 blocks of A's in the
+ciphertext (eg the blocks are repeated). We can use that to get the ciphertext
+for anyblock we want in the middle.
+
+This is what I think I have to do:
+- get the ciphertext for just 'user' alone in a block (with padding)
+- add a bunch of A's to the email field until the 'user' ciphertext block shows
+  up in the ciphertext (so it means we pushed it to be the last block)
+- then we can get the ciphertext for 'admin' alone in a block (with padding) 
+  using the A's, to make sure it's in a block by itself, like we did with 'user'
+- then we can replace the last block of the ciphertext, that has 'user' in it,
+  with the ciphertext for 'admin' alone in a block (with padding)
+- then we can decrypt the ciphertext and get the admin role!
+
+So far, I am pushing the 'user' block to the end, but I'm not getting the same
+ciphertext that I get when when I stick in between the A's - I think I'm doing
+something wrong with the padding.
+
+Update: Just got it working, it was the padding value that was wrong - that's
+what I get for poking around and doing it 'by hand' instead of generalizing a
+bit more. The approach above is what I ended up doing, and it worked!
