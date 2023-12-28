@@ -24,3 +24,10 @@ I'm at least understanding the idea:
   not going to be able to do that for the seed, but it's still possible to
   predict the next number in the sequence if we have enough numbers from the
   sequence (624) (this is next challenge)
+
+Python does something fancy - it seeds normally as it describes in wiki with a
+single int, but then it re-seeds using repetition of the seed we gave it to
+initialize the state.
+Eg: https://github.com/python/cpython/blob/main/Modules/_randommodule.c#L225 
+(init_genrand is the normal seeding - then there is a loop
+updates the state with repetitions of 32bit chunks of the seed)
