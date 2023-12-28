@@ -10,3 +10,17 @@ it's implemented differently or if I'm doing something wrong, going to look
 into it more...
 
 Giving us random (looking) numbers though, so that's cool!
+
+Update: it's not matching python because they init first with a fixed int seed,
+and then re-init with the seed we provide - so I would need to implement that to
+match it exactly.
+
+Completed the attack part Challenge 22 - I used my implementation of MT19937
+and python's random module seeded with time. So I think that demonstrates that
+I'm at least understanding the idea:
+- if MT is seeded with a single int (or a small number of ints like python)
+  we can pretty much brute force seeds until we find the right one
+- if MT state is completely initialized using /dev/urandom or something, we're
+  not going to be able to do that for the seed, but it's still possible to
+  predict the next number in the sequence if we have enough numbers from the
+  sequence (624) (this is next challenge)
