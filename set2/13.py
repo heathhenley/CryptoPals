@@ -1,4 +1,4 @@
-# Set 2 Challenge 13
+# Set 2 Challenge 13 - Cut and Paste Attack
 import os
 import Crypto.Cipher.AES
 from Crypto.Cipher.AES import MODE_ECB

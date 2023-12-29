@@ -1,6 +1,9 @@
-# Cryptopals Set 2, Challenge 12 - Byte-at-a-time ECB decryption (Simple)
+# Cryptopals Set 2, Challenge 14 - Byte-at-a-time ECB decryption (Harder)
+# same as 12, but with a random prefix of unknown length prepended to the
+# plaintext before encryption
 import base64
 import os
+import secrets
 import Crypto.Cipher.AES
 from Crypto.Cipher.AES import MODE_CBC, MODE_ECB
 
@@ -23,10 +26,16 @@ def oracle_factory(
   It appends the unknown string to the user's input and encrypts them
   together.
   """
+
+  num_rand_bytes = secrets.randbelow(16)
+  prefix = os.urandom(num_rand_bytes)
+  print(f"prefix len: {num_rand_bytes}")
+
   def oracle_ecb(known: bytes) -> bytes:
     # encrypts known str with unknown using an unknown key using ECB mode
     return encrypt_ecb(
-      known + base64.b64decode(unknown_base64), key)
+      prefix + known + base64.b64decode(unknown_base64), key)
+
   return oracle_ecb
 
 def detect_block_size(oracle) -> int | None:
@@ -39,9 +48,27 @@ def detect_block_size(oracle) -> int | None:
       return i
   return None
 
-def detect_ecb(cipher):
-  blocks = [cipher[i:i+16] for i in range(0, len(cipher), 16)]
+def detect_ecb(cipher: bytes, block_size: int = 16):
+  return has_repeated_blocks(cipher, block_size)
+
+def has_repeated_blocks(cipher: bytes, block_size: int = 16):
+  blocks = [cipher[i:i+block_size] for i in range(0, len(cipher), block_size)]
   return len(blocks) != len(set(blocks))
+
+def detect_prefix_len(oracle: callable, block_size: int) -> int:
+  # how can we find this? -- add 2 blocks of A's - then add X's, when we 
+  # finally get two
+  # identical blocks, we know we've hit the prefix ?
+  two_blocks = "A" * block_size
+  for i in range(block_size):
+    ct = oracle(two_blocks + "X" * i)
+    if has_repeated_blocks(ct, block_size):
+      prefix_len= block_size - i
+      break
+  print(f"prefix len: {prefix_len}")
+  # This is the length of the prefix in the block it ends in, but what about
+  # if the prefix is longer than a block?
+  return prefix_len
 
 def get_ct_map(oracle, known_bytes: bytes, block_size: int) -> dict:
   # Try all possible bytes for the last and only unknown byte in
@@ -52,7 +79,7 @@ def get_ct_map(oracle, known_bytes: bytes, block_size: int) -> dict:
     ct_map[ct[:block_size]] = bytes([i])
   return ct_map
 
-def crack_ecb(oracle, block_size: int) -> bytes:
+def crack_ecb(oracle: callable, block_size: int) -> bytes:
 
   # get the unknown string length using the oracle with no input
   ct_nothing = oracle(b"")
@@ -106,10 +133,16 @@ def main():
   oracle = oracle_factory()
 
   # detect that it's using ECB mode
-  if not detect_ecb(oracle(b"A" * 100)):
+  if not detect_ecb(oracle(b"A" * 128)):
     print("ECB not detected!")
     return 1
   print("ECB detected!")
+
+  # detect random padding length - but do I need to get the block size first?
+  # Update there's a better method to get the block size than what I was using
+  # before...
+  prefix_len = detect_prefix_len(oracle)
+  return 0
 
   # detect block size
   if not (block_size := detect_block_size(oracle)):

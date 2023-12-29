@@ -68,3 +68,16 @@ something wrong with the padding.
 Update: Just got it working, it was the padding value that was wrong - that's
 what I get for poking around and doing it 'by hand' instead of generalizing a
 bit more. The approach above is what I ended up doing, and it worked!
+
+# Problem 14
+This is the same as 12, but with a random number of random bytes prepended to
+the plaintext before it's encrypted. Need to first update to get block size in
+a different way, the prefix breaks the way I was using before.
+
+So:
+- get block size (add a's until the size of ct changes size)
+- get len of prepended bytes add two blocks of A's, prepend with an adjusting
+  number of X's until there are two repeated blocks in the ciphertext - that
+  number of X's pushed the A's to the block after the prepended bytes + X's
+- ah then the length of the prepended bytes is the something like:
+  block size * (block idx - 1) + (block size - len of X's)
