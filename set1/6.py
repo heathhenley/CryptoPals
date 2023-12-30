@@ -1,3 +1,5 @@
+# Cryptopals Set 1, Challenge 6 - Break repeating-key XOR
+# - uses hamming distance to find key size and letter frequency to find key
 import base64
 
 def xor(bstr: bytes, key: int):

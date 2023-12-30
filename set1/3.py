@@ -1,4 +1,4 @@
-
+# Cryptopals Set 1, Challenge 3 - Single-byte XOR cipher
 def xor(bstr: bytes, key: int):
   return bytes([b ^ key for b in bstr])
 

@@ -1,4 +1,4 @@
-
+# Cryptopals Set 1, Challenge 4 - Detect / break single-character XOR
 def xor(bstr: bytes, key: int):
   return bytes([b ^ key for b in bstr])
 

@@ -1,3 +1,4 @@
+# Cryptopals Set 1, Challenge 5 - intro repeating-key XOR
 def xor(bstr: bytes, key: int):
   return bytes([b ^ key for b in bstr])
 
