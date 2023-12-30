@@ -6,7 +6,7 @@ Working through these to learn a little bit about cryptography and
 common attacks, been pretty fun so far!
 
 To run these, you might need to install the requirements in the
-requirements.txt file. I've been using Python 3.12.
+requirements.txt file. I've been using Python 3.11.
 
 ```
 py -m pip install -r requirements.txt
