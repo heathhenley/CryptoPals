@@ -104,14 +104,11 @@ def crack_ecb(oracle: callable, block_size: int, prefix_len: int) -> bytes:
   # prefix is ending in
   prefix = b"X" * (block_size - prefix_len % block_size)
 
-  print(f"Prefix: {prefix}")
-
   # block offset is the number of blocks in the prefix, we need to know which
   # block the unknown string starts in eg where the prefix part we don't care
   # about ends
   block_offset = (prefix_len  + len(prefix)) // block_size
 
-  print(f"Block offset: {block_offset}")
   # get the unknown string length using the oracle with no input
   # with a block boundary
   lpad_oracle = lambda x: oracle(prefix + x)
