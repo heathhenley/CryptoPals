@@ -31,3 +31,10 @@ initialize the state.
 Eg: https://github.com/python/cpython/blob/main/Modules/_randommodule.c#L225 
 (init_genrand is the normal seeding - then there is a loop
 updates the state with repetitions of 32bit chunks of the seed)
+
+# Challenge 23
+
+I was pretty stuck on the bit operations for this one, but I searched around and
+found some great examples of how to do it. There were are lot of examples of
+a symbolic solver to solve it, but I think it's more interesting to see it
+actually implemented as reversing each operation.
