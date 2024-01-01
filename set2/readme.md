@@ -91,3 +91,17 @@ the same as before (number 12)
 # Problem 15
 
 Seemed pretty straightforward - I think it's just needed for the next one.
+
+# Problem 16 - CBC bitflipping attacks
+
+This was pretty cool! I had some trouble understanding the bit flipping
+part, I guess I'm just rusty with the bitwise operations. In CBC mode,
+during decryption, the previous ciphertext block is XORed with the current
+unencrypted block to get the final plaintext for the block. So as long as
+we know what the input we're trying to manipulate is, we can manipulate the
+previous ciphertext block so that when it's xor'd with the current plaintext
+it will give us the desired plaintext (eg admin=true).
+
+I think something intended for authentication would prevent this, like a
+HMAC or something - tempering with the ciphertext would invalidate the
+MAC.
