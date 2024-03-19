@@ -1,5 +1,3 @@
-import sys
-
 import sha1
 
 
