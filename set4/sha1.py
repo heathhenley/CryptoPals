@@ -13,7 +13,7 @@ except NameError:
 def _left_rotate(n, b):
     return ((n << b) | (n >> (32 - b))) & 0xffffffff
     
-def sha1(message):
+def sha1(message, state=None, padding_offset=0):
     """SHA-1 Hashing Function
 
     A custom SHA-1 hashing function implemented entirely in Python.
@@ -24,15 +24,20 @@ def sha1(message):
     Returns:
         A hex SHA-1 digest of the input message.
     """
-    # Initialize variables:
-    h0 = 0x67452301
-    h1 = 0xEFCDAB89
-    h2 = 0x98BADCFE
-    h3 = 0x10325476
-    h4 = 0xC3D2E1F0
+    if state is None:
+        # Initialize variables:
+        h0 = 0x67452301
+        h1 = 0xEFCDAB89
+        h2 = 0x98BADCFE
+        h3 = 0x10325476
+        h4 = 0xC3D2E1F0
+    else:
+        for i, st in enumerate(state):
+            state[i] &= 0xffffffff
+        h0, h1, h2, h3, h4 = state
     
     # Pre-processing:
-    original_byte_len = len(message)
+    original_byte_len = len(message) + padding_offset
     original_bit_len = original_byte_len * 8
     # append the bit '1' to the message
     message += b'\x80'
@@ -43,6 +48,7 @@ def sha1(message):
     
     # append length of message (before pre-processing), in bits, as 64-bit big-endian integer
     message += struct.pack(b'>Q', original_bit_len)
+
     # Process the message in successive 512-bit chunks:
     # break message into 512-bit chunks
     for i in range(0, len(message), 64):
