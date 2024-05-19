@@ -1,3 +1,16 @@
+# Challenge 17
+
+That was a doozy - had a lot of trouble understanding how this works at first,
+and then got stuck on the implementation because my padding adding / removal
+functions were slightly off. Of course, I wasn't looking there though...
+
+This blog was extremely helpful in understanding the attack:
+  https://research.nccgroup.com/2021/02/17/cryptopals-exploiting-cbc-padding-oracles/
+
+So I guess I cheated this time, but I understand it now and it saved me a lot 
+of time lol.
+
+
 # Challenge 21 
 
 Jumping to this challenge because it seems that understanding MT19937 and how
