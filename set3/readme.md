@@ -16,6 +16,13 @@ Instead of encrypting blocks of the plaintext with a key, we encrypt a running
 counter with the key to make a "keystream" and then XOR the result with the
 plaintext. To decrypt, it's exactly the same process.
 
+# Challenge 19
+Cracking a stream cipher that re-uese the same nonce instead of randomizing it
+for each encryption is easy using substitution. Each individual plaintext will
+get XOR'd with the same keystream - so we can try all the possible bytes one by
+one and find a probable keystream over all the ciphertexts we would like to decrypt. This is repeated for each block because the nonce increments, so it's
+a different keystream for each block.
+
 # Challenge 21 
 
 Jumping to this challenge because it seems that understanding MT19937 and how
