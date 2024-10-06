@@ -13,7 +13,7 @@ of time.
 # Challenge 18
 This is a simpler one, I guess to introduce stream cipher modes of operation.
 Instead of encrypting blocks of the plaintext with a key, we encrypt a running
-counter with the key to make a "keystream" and then xor the result with the 
+counter with the key to make a "keystream" and then XOR the result with the
 plaintext. To decrypt, it's exactly the same process.
 
 # Challenge 21 
