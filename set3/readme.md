@@ -8,8 +8,13 @@ This blog was extremely helpful in understanding the attack:
   https://research.nccgroup.com/2021/02/17/cryptopals-exploiting-cbc-padding-oracles/
 
 So I guess I cheated this time, but I understand it now and it saved me a lot 
-of time lol.
+of time.
 
+# Challenge 18
+This is a simpler one, I guess to introduce stream cipher modes of operation.
+Instead of encrypting blocks of the plaintext with a key, we encrypt a running
+counter with the key to make a "keystream" and then xor the result with the 
+plaintext. To decrypt, it's exactly the same process.
 
 # Challenge 21 
 
