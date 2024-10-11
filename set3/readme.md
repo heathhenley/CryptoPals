@@ -17,14 +17,23 @@ counter with the key to make a "keystream" and then XOR the result with the
 plaintext. To decrypt, it's exactly the same process.
 
 # Challenge 19
-Cracking a stream cipher that re-uese the same nonce instead of randomizing it
+Cracking a stream cipher that re-uses the same nonce instead of randomizing it
 for each encryption is easy using substitution. Each individual plaintext will
 get XOR'd with the same keystream - so we can try all the possible bytes one by
-one and find a probable keystream over all the ciphertexts we would like to decrypt. This is repeated for each block because the nonce increments, so it's
+one and find a probable keystream over all the ciphertexts we would like to
+decrypt. This is repeated for each block because the nonce increments, so it's
 a different keystream for each block.
 
-# Challenge 21 
+# Challenge 20
+This is a similar attach to 19, but I didn't realize completely that using the
+same nonce and key for each one makes them all basically equal to a big
+repeating key xor, with the 'key' being the shortest ciphertext. I just trimmed
+them all to the length of the shortest one, appended them together, and used
+the old repeating key xor attack from set 1, challenge 6 to decrypt them all. I
+have a bug though in that the first character is slightly off for all of them -
+something I have not figured out yet.
 
+# Challenge 21 
 Jumping to this challenge because it seems that understanding MT19937 and how
 works under the hood might help me with another crypto challenge I'm working on
 right now. Specifically need a good understanding of how state is related to
