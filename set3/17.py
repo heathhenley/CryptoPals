@@ -123,7 +123,7 @@ def single_block_attack(block, oracle):
   https://research.nccgroup.com/2021/02/17/cryptopals-exploiting-cbc-padding-oracles/
   Because I got stuck on this one... it actually turned out that
   I was not doing anything wrong in this part, but function to remove padding
-  and raise if was not valid was wrong. :(
+  and raise if was not valid was wrong.
 
   """
 

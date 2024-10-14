@@ -72,3 +72,9 @@ I was pretty stuck on the bit operations for this one, but I searched around and
 found some great examples of how to do it. There were are lot of examples of
 a symbolic solver to solve it, but I think it's more interesting to see it
 actually implemented as reversing each operation.
+
+# Challenge 24
+Generated a stream cipher using the MT19937 PRNG and then encrypted a message
+with it. Demonstrated how to break it using brute force to find the seed - this
+a demonstration of why it's important to use a CSPRNG for anything related to
+security.
